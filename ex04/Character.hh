@@ -1,5 +1,5 @@
-#ifndef CHARACTER_H_
-#define CHARACTER_H_
+#ifndef __CHARACTER_H__
+#define __CHARACTER_H__
 
 #include <string>
 #include <iostream>

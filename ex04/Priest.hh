@@ -1,5 +1,5 @@
-#ifndef PRIEST_H_
-#define PRIEST_H_
+#ifndef __PRIEST_H__
+#define __PRIEST_H__
 
 #include <string>
 #include <iostream>

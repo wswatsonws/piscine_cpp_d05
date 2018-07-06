@@ -1,5 +1,5 @@
-#ifndef WARRIOR_H_
-#define WARRIOR_H_
+#ifndef __WARRIOR_H__
+#define __WARRIOR_H__
 
 #include <string>
 #include <iostream>

@@ -1,5 +1,5 @@
-#ifndef HUNTER_H_
-#define HUNTER_H_
+#ifndef __HUNTER_H__
+#define __HUNTER_H__
 
 #include <string>
 #include <iostream>

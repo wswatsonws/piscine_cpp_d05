@@ -1,5 +1,5 @@
-#ifndef __MAGE_H__
-#define __MAGE_H__
+#ifndef MAGE_H_
+#define MAGE_H_
 
 #include <string>
 #include <iostream>

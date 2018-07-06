@@ -1,36 +1,16 @@
-#ifndef PRIEST_H_
-#define PRIEST_H_
-
-#include <string>
-#include <iostream>
+#ifndef _PRIEST_H_
+#define _PRIEST_H_
 
 #include "Mage.hh"
+#include "Character.hh"
 
-class Priest : public Mage {
-protected:
-	Priest();
-
-public:
-	explicit Priest(std::string const & name, int lvl);
-	virtual ~Priest();
-
-	virtual int CloseAttack();
-
-protected:
-	virtual void speakCreated() const;
-	virtual void speakCloseAttack() const;
-	virtual void speakHeal() const;
-
-	static int const baseForce = 4;
-	static int const baseEndurance = 4;
-	static int const baseIntelligence = 42;
-	static int const baseEsprit = 21;
-	static int const baseAgilite = 2;
-
-	static int const baseAtkClose = 10;
-	static int const baseRestorePv = 70;
-	static int const baseCostPv = 10;
-
+class Priest : public Mage
+{
+	public:
+		explicit Priest(std::string const& name, int level);
+		int CloseAttack();
+		int RangeAttack();
+		void Heal();
 };
 
-#endif
+#endif /* !PRIEST_H_ */

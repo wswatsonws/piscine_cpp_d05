@@ -1,62 +1,39 @@
+#include <iostream>
 #include "Mage.hh"
 
-Mage::Mage() {
-
+Mage::Mage(std::string const& name, int level) : Character(name, level, "Mage", "Gnome")
+{
+    _stats[STAT_STRENGTH] = 6;
+    _stats[STAT_STAMINA] = 6;
+    _stats[STAT_INTEL] = 12;
+    _stats[STAT_SPIRIT] = 11;
+    _stats[STAT_AGILITY] = 7;
+    std::cout << getName() << " teleported" << std::endl;
 }
 
-Mage::Mage(std::string const & name, int lvl) {
-	this->name = name;
-	this->lvl = lvl;
-	pv = pvMax;
-	pm = pmMax;
-	force = baseForce;
-	endurance = baseEndurance;
-	intelligence = baseIntelligence;
-	esprit = baseEsprit;
-	agilite = baseAgilite;
-
-	atkClose = baseAtkClose;
-	costClose = costAtkClose;
-	atkRange = baseAtkRange;
-	costRange = costAtkRange;
-	restorePv = baseRestorePv;
-	costPv = baseCostPv;
-	restorePm = baseRestorePm;
-	costPm = baseCostPm;
-
-	Range = Character::CLOSE;
-	weaponClose = std::string("");
-	weaponRange = std::string("fire ball");
-	bonusCloseAttack = &Mage::bonusNull;
-	bonusRangeAttack = &Mage::esprit;
-	bonusRestorePm = &Mage::intelligence;
-
-	speakCreated();
+int Mage::CloseAttack()
+{
+    if (_power < 10)
+        return HandleOutOfPower();
+    std::cout << getName() << " blinks" << std::endl;
+    Range = RANGE;
+    _power -= 10;
+    return 0;
 }
 
-Mage::~Mage() {
-
+int Mage::RangeAttack()
+{
+    if (_power < 25)
+        return HandleOutOfPower();
+    std::cout << getName() << " launches a fire ball" << std::endl;
+    _power -= 25;
+    return 20 + _stats[STAT_SPIRIT];
 }
 
-int Mage::CloseAttack() {
-	if (actionCost(costClose)) {
-		speakCloseAttack();
-		Range = Character::RANGE;
-		return 0;
-	}
-	speakOutOfPower();
-	return 0;
-}
-
-void Mage::speakCreated() const {
-	Character::speakCreated();
-	speak("teleported");
-}
-
-void Mage::speakCloseAttack() const {
-	speak("blinks");
-}
-
-void Mage::speakRestorePower() const {
-	speak("takes a mana potion");
+void Mage::RestorePower()
+{
+    _power += (50 + _stats[STAT_INTEL]);
+    if (_power > 100)
+        _power = 100;
+    std::cout << getName() << " takes a mana potion" << std::endl;
 }

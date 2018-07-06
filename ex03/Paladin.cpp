@@ -1,73 +1,40 @@
+#include <iostream>
 #include "Paladin.hh"
 
-Paladin::Paladin() {
-
+Paladin::Paladin(std::string const& name, int level) : Character(name, level, "Paladin", "Human"), 
+	Warrior(name, level), Priest(name, level)
+{
+    _stats[STAT_STRENGTH] = 9;
+    _stats[STAT_STAMINA] = 10;
+    _stats[STAT_INTEL] = 10;
+    _stats[STAT_SPIRIT] = 10;
+    _stats[STAT_AGILITY] = 2;
+    _class = "Paladin";
+    _race = "Human";
+    std::cout << "the light falls on " << getName() << std::endl;
 }
 
-Paladin::Paladin(std::string const & name, int lvl) {
-	this->name = name;
-	this->lvl = lvl;
-	pv = pvMax;
-	pm = pmMax;
-	force = baseForce;
-	endurance = baseEndurance;
-	intelligence = baseIntelligence;
-	esprit = baseEsprit;
-	agilite = baseAgilite;
-
-	atkClose = baseAtkClose;
-	costClose = costAtkClose;
-	atkRange = baseAtkRange;
-	costRange = costAtkRange;
-	restorePv = baseRestorePv;
-	costPv = Priest::baseCostPv;
-	restorePm = baseRestorePm;
-	costPm = Priest::baseCostPm;
-
-	Range = Character::CLOSE;
-	weaponClose = std::string("hammer");
-	weaponRange = std::string("fire ball");
-	bonusCloseAttack = &Paladin::force;
-	bonusRangeAttack = &Paladin::esprit;
-	bonusRestorePm = &Paladin::bonusNull;
-
-	speakCreated();
+int Paladin::CloseAttack()
+{
+    return Warrior::CloseAttack();
 }
 
-Paladin::~Paladin() {
-
+int Paladin::RangeAttack()
+{
+    return Priest::RangeAttack();
 }
 
-int Paladin::RangeAttack() {
-	return Priest::RangeAttack();
+void Paladin::Heal()
+{
+    Priest::Heal();
 }
 
-void Paladin::Heal() {
-	Priest::Heal();
+void Paladin::RestorePower()
+{
+    Warrior::RestorePower();
 }
 
-int Paladin::Intercept() {
-	if (actionCost(10)) {
-		speakIntercept();
-		Range = Character::CLOSE;
-	}
-	else {
-		speakOutOfPower();
-	}
-	return 0;
-}
-
-void Paladin::speakCreated() const {
-	Warrior::speakCreated();
-	speak("teleported");
-	speak("enters in the order");
-	std::cout << "the light falls on " << name << std::endl;
-}
-
-void Paladin::speakCloseAttack() const {
-	Warrior::speakCloseAttack();
-}
-
-void Paladin::speakRangeAttack() const {
-	Priest::speakRangeAttack();
+int Paladin::Intercept()
+{
+    return Warrior::RangeAttack();
 }

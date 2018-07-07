@@ -13,17 +13,6 @@ Priest::Priest(std::string const& name, int level) : Mage(name, level)
     std::cout << getName() << " enters in the order" << std::endl;
 }
 
-void Priest::Heal()
-{
-    if (_power < 10)
-        return;
-    _power -= 10;
-    _pv += 70;
-    if (_pv > 100)
-        _pv = 100;
-    std::cout << getName() << " casts a little heal spell" << std::endl;
-}
-
 int Priest::CloseAttack()
 {
     if (_power < 10)
@@ -42,3 +31,13 @@ int Priest::RangeAttack()
     return 20 + _stats[STAT_SPIRIT];
 }
     
+void Priest::Heal()
+{
+    if (_power < 10)
+        return;
+    _power -= 10;
+    _pv += 70;
+    if (_pv > 100)
+        _pv = 100;
+    std::cout << getName() << " casts a little heal spell" << std::endl;
+}

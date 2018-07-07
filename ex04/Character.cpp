@@ -1,8 +1,7 @@
 #include <iostream>
 #include "Character.hh"
 
-Character::Character(std::string const& name, int level, 
-	std::string const& cls, std::string const& race) :
+Character::Character(std::string const& name, int level, std::string const& cls, std::string const& race) :
     Range(CLOSE), _name(name),
     _level(level), _pv(100), _power(100),
     _class(cls), _race(race)

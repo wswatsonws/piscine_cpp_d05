@@ -1,8 +1,7 @@
 #include <iostream>
 #include "Paladin.hh"
 
-Paladin::Paladin(std::string const& name, int level) : Character(name, level, "Paladin", "Human"), 
-	Warrior(name, level), Priest(name, level)
+Paladin::Paladin(std::string const& name, int level) : Character(name, level, "Paladin", "Human"), Warrior(name, level), Priest(name, level)
 {
     _stats[STAT_STRENGTH] = 9;
     _stats[STAT_STAMINA] = 10;

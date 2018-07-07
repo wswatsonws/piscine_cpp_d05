@@ -9,17 +9,8 @@ Warrior::Warrior(std::string const& name, int level) : Character(name, level, "W
     _stats[STAT_INTEL] = 6;
     _stats[STAT_SPIRIT] = 5;
     _stats[STAT_AGILITY] = 7;
-    std::cout << "I'm " << getName() << " KKKKKKKKKKRRRRRRRRRRRRRREEEEEEEEOOOOOOORRRRGGGGGGG" << std::endl;
-}
 
-int Warrior::RangeAttack()
-{
-    if (_power < 10)
-        return HandleOutOfPower();
-    _power -= 10;
-    Range = CLOSE;
-    std::cout << getName() << " intercepts" << std::endl;
-    return 0;
+    std::cout << "I'm " << getName() << " KKKKKKKKKKRRRRRRRRRRRRRREEEEEEEEOOOOOOORRRRGGGGGGG" << std::endl;
 }
 
 int Warrior::CloseAttack()
@@ -31,3 +22,12 @@ int Warrior::CloseAttack()
     return 20 + _stats[STAT_STRENGTH];
 }
 
+int Warrior::RangeAttack()
+{
+    if (_power < 10)
+        return HandleOutOfPower();
+    _power -= 10;
+    Range = CLOSE;
+    std::cout << getName() << " intercepts" << std::endl;
+    return 0;
+}

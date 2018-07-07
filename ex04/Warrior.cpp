@@ -13,16 +13,6 @@ Warrior::Warrior(std::string const& name, int level) : Character(name, level, "W
     std::cout << "I'm " << getName() << " KKKKKKKKKKRRRRRRRRRRRRRREEEEEEEEOOOOOOORRRRGGGGGGG" << std::endl;
 }
 
-int Warrior::RangeAttack()
-{
-    if (_power < 10)
-        return HandleOutOfPower();
-    _power -= 10;
-    Range = CLOSE;
-    std::cout << getName() << " intercepts" << std::endl;
-    return 0;
-}
-
 int Warrior::CloseAttack()
 {
     if (_power < 30)
@@ -32,3 +22,11 @@ int Warrior::CloseAttack()
     return 20 + _stats[STAT_STRENGTH];
 }
 
+int Warrior::RangeAttack()
+{
+    if (_power < 10)
+        return HandleOutOfPower();
+    _power -= 10;
+    Range = CLOSE;
+    std::cout << getName() << " intercepts" << std::endl;
+    return 0;}

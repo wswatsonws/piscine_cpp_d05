@@ -1,193 +1,82 @@
+#include <iostream>
 #include "Character.hh"
 
-Character::Character() : bonusNull(0) {
-
+Character::Character(std::string const& name, int level, std::string const& cls, std::string const& race) :
+    Range(CLOSE), _name(name),
+    _level(level), _pv(100), _power(100),
+    _class(cls), _race(race)
+{
+    for (int i = 0; i < STAT_MAX; ++i)
+        _stats[i] = 5;
+    std::cout << getName() << " Created" << std::endl;
 }
 
-Character::Character(std::string const & name, int lvl) : bonusNull(0) {
-	this->name = name;
-	this->lvl = lvl;
-	pv = pvMax;
-	pm = pmMax;
-	force = baseForce;
-	endurance = baseEndurance;
-	intelligence = baseIntelligence;
-	esprit = baseEsprit;
-	agilite = baseAgilite;
-
-	atkClose = baseAtkClose;
-	costClose = costAtkClose;
-	atkRange = baseAtkRange;
-	costRange = costAtkRange;
-	restorePv = baseRestorePv;
-	costPv = baseCostPv;
-	restorePm = baseRestorePm;
-	costPm = baseCostPm;
-
-	Range = Character::CLOSE;
-	weaponClose = std::string("wood stick");
-	weaponRange = std::string("stone");
-	bonusCloseAttack = &Character::force;
-	bonusRangeAttack = &Character::force;
-	bonusRestorePm = &Character::bonusNull;
-
-	speakCreated();
+std::string const& Character::getName() const
+{
+    return _name;
 }
 
-Character::~Character() {
-
+int Character::getLvl() const
+{
+    return _level;
 }
 
-std::string const & Character::getName() const {
-	return name;
+int Character::getPv() const
+{
+    return _pv;
 }
 
-int Character::getLvl() const {
-	return lvl;
+int Character::getPower() const
+{
+    return _power;
 }
 
-int Character::getPv() const {
-	return pv;
+int Character::CloseAttack()
+{
+    if (_power < 10)
+        return HandleOutOfPower();
+    std::cout << getName() << " strikes with a wood stick" << std::endl;
+    _power -= 10;
+    return 10 + _stats[STAT_STRENGTH];
 }
 
-int Character::getPower() const {
-	return pm;
+int Character::RangeAttack()
+{
+    if (_power < 10)
+        return HandleOutOfPower();
+    std::cout << getName() << " launches a stone" << std::endl;
+    _power -= 10;
+    return 5 + _stats[STAT_STRENGTH];
 }
 
-int Character::getForce() const {
-	return force;
+void Character::Heal()
+{
+   _pv += 50;
+   if (_pv > 100)
+       _pv = 100;
+   std::cout << getName() << " takes a potion" << std::endl;
 }
 
-int Character::getEndurance() const {
-	return endurance;
+void Character::RestorePower()
+{
+    _power = 100;
+    std::cout << getName() << " eats" << std::endl;
 }
 
-int Character::getIntelligence() const {
-	return intelligence;
+int Character::HandleOutOfPower()
+{
+    std::cout << getName() << " out of power" << std::endl;
+    return 0;
 }
 
-int Character::getEsprit() const {
-	return esprit;
-}
-
-int Character::getAgilite() const {
-	return agilite;
-}
-
-void Character::changePv(int value) {
-	pv += value;
-	if (pv < 0) {
-		pv = 0;
-	}
-	else if (pv > pvMax) {
-		pv = pvMax;
-	}
-}
-
-void Character::changePm(int value) {
-	pm += value;
-	if (pm < 0) {
-		pm = 0;
-	}
-	else if (pm > pmMax) {
-		pm = pmMax;
-	}
-}
-
-int Character::CloseAttack() {
-	if (actionCost(costClose)) {
-		speakCloseAttack();
-		return atkClose + this->*bonusCloseAttack;
-	}
-	speakOutOfPower();
-	return 0;
-}
-
-int Character::RangeAttack() {
-	if (actionCost(costRange)) {
-		speakRangeAttack();
-		return atkRange + this->*bonusRangeAttack;
-	}
-	speakOutOfPower();
-	return 0;
-}
-
-void Character::Heal() {
-	if (actionCost(costPv)) {
-		changePv(restorePv);
-		speakHeal();
-		return;
-	}
-	speakOutOfPower();
-}
-
-void Character::RestorePower() {
-	if (actionCost(costPm)) {
-		changePm(restorePm + this->*bonusRestorePm);
-		speakRestorePower();
-		return;
-	}
-	speakOutOfPower();
-}
-
-void Character::TakeDamage(int damage) {
-	if (damage >= 0) {
-		changePv(-damage);
-		if (pv == 0) {
-			speakOutOfCombat();
-		}
-		else {
-			speakTakeDamage(damage);
-		}
-	}
-}
-
-bool Character::actionCost(int cost) {
-	if (pm >= cost) {
-		changePm(-cost);
-		return true;
-	}
-	return false;
-}
-
-void Character::speak(std::string message) const {
-	std::cout << name << " " << message << std::endl;
-}
-
-void Character::speakCreated() const {
-	speak("Created");
-}
-
-void Character::speakCloseAttack() const {
-	speak(std::string("strikes with a ") + weaponClose);
-}
-
-void Character::speakRangeAttack() const {
-	speak(std::string("launches a ") + weaponRange);
-}
-
-void Character::speakHeal() const {
-	speak("takes a potion");
-}
-
-void Character::speakRestorePower() const {
-	speak("eats");
-}
-
-void Character::speakTakeDamage(int damage) const {
-	speak(std::string("takes ") + int_to_string(damage) + " damage");
-}
-
-void Character::speakOutOfPower() const {
-	speak("out of power");
-}
-
-void Character::speakOutOfCombat() const {
-	speak("out of combat");
-}
-
-std::string int_to_string(int n) {
-	std::ostringstream o;
-	o << n;
-	return o.str();
+void Character::TakeDamage(int damage)
+{
+    if (_pv <= damage)
+    {
+        _pv = 0;
+        std::cout << getName() << " out of combat" << std::endl;
+        return;
+    }
+    _pv -= damage;
+    std::cout << getName() << " takes " << damage << " damage" << std::endl;
 }
